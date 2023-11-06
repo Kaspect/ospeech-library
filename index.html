@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/bamboo.css">
+</head>
+<body>
+  <h1>Launch DeepLinks for oSpeech</h1>
+  <h2>Instructions:</h2>
+  <ol>
+    <li>Download and install oSpeech on TestFlight:</li>
+    <ul>
+      <li>Click on <a href="https://testflight.apple.com/join/1qHHi8IY">this link</a> to install oSpeech on TestFlight (short invite).</li>
+    </ul>
+    <li>Open the app:</li>
+    <ul>
+      <li>If you open the app without a deep link, it will use a full session (standard deep link).</li>
+      <li>If you open the app with a deep link from this page, it will have the correct exercises from that link.</li>
+    </ul>
+  </ol>
+
+  <h2>XML Schema:</h2>
+  <p>The XML file should follow the schema and guidelines outlined below:</p>
+  <pre>
+    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    &lt;trials&gt;
+        &lt;trial&gt;
+            &lt;name&gt;Trial 01&lt;/name&gt;
+            &lt;pluggedNose&gt;false&lt;/pluggedNose&gt;
+            &lt;challengeAmount&gt;1&lt;/challengeAmount&gt;
+            &lt;randomizeTrial&gt;false&lt;/randomizeTrial&gt;
+            &lt;phrases&gt;
+                &lt;text&gt;DESIRED_STRING:&lt;/text&gt;
+                &lt;imagePath&gt;IMAGE_PATH || NULL&lt;/imagePath&gt;
+                &lt;videoPath&gt;VIDEO_PATH || NULL&lt;/videoPath&gt;
+                &lt;imageCompanionPath&gt;IMAGE_PATH || NULL&lt;/imageCompanionPath&gt;
+            &lt;/phrases&gt;
+            &lt;phrases&gt;
+                &lt;text&gt;DESIRED_STRING:&lt;/text&gt;
+                &lt;imagePath&gt;IMAGE_PATH || NULL&lt;/imagePath&gt;
+                &lt;videoPath&gt;VIDEO_PATH || NULL&lt;/videoPath&gt;
+                &lt;imageCompanionPath&gt;IMAGE_PATH || NULL&lt;/imageCompanionPath&gt;
+            &lt;/phrases&gt;
+            <!-- Add more phrases here -->
+        &lt;/trial&gt;
+    &lt;/trials&gt;
+  </pre>
+
+  <h2>Deep Link XML Integration:</h2>
+  <p>The deep link can be constructed by appending the XML link to the following base URL:</p>
+  <pre>ospeech://start?xml=<em>{XML_LINK}</em></pre>
+  <p>Replace <em>{XML_LINK}</em> with the URL-encoded version of the desired XML link.</p>
+
+  <h2>Deep Link Options:</h2>
+  <ul>
+    <li><a href="ospeech://start?xml=https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/xml/short-session.phrases.xml">Deep link to open on iOS (short session)</a></li>
+    <li><a href="ospeech://start?xml=https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/xml/clinician-session.phrases.xml">Deep link to open on iOS (full session session)</a></li>
+    <li><a href="ospeech://start?xml=https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/xml/multilingual-session.phrases.xml">Deep link to open on iOS (multilingual session test)</a></li>
+  </ul>
+
+  <h2>Custom Deep Link:</h2>
+  <form id="customForm">
+    <label for="customXmlPath">Custom XML Path:</label>
+    <input type="text" id="customXmlPath" name="customXmlPath" placeholder="Enter XML path">
+    <button type="button" onclick="generateDeepLink()">Generate Deep Link</button>
+  </form>
+
+  <script>
+    function generateDeepLink() {
+      const customXmlPath = encodeURIComponent(document.getElementById('customXmlPath').value);
+      const deepLink = `ospeech://start?xml=${customXmlPath}`;
+      window.location.href = deepLink;
+    }
+  </script>
+</body>
+</html>
